@@ -114,6 +114,10 @@ REDIS_CHECK_DUMP_OBJ= redis-check-dump.o lzf_c.o lzf_d.o crc64.o
 REDIS_CHECK_AOF_NAME= redis-check-aof
 REDIS_CHECK_AOF_OBJ= redis-check-aof.o
 
+ifeq ($(USE_ZEROMQ),yes)
+  REDIS_SERVER_OBJ+=zeromq.o
+endif
+
 all: $(REDIS_SERVER_NAME) $(REDIS_SENTINEL_NAME) $(REDIS_CLI_NAME) $(REDIS_BENCHMARK_NAME) $(REDIS_CHECK_DUMP_NAME) $(REDIS_CHECK_AOF_NAME)
 	@echo ""
 	@echo "Hint: To run 'make test' is a good idea ;)"

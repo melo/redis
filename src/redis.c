@@ -31,6 +31,10 @@
 #include "slowlog.h"
 #include "bio.h"
 
+#ifdef USE_ZEROMQ
+#include "zeromq.h"
+#endif
+
 #include <time.h>
 #include <signal.h>
 #include <sys/wait.h>
@@ -1344,6 +1348,9 @@ void initServer() {
     scriptingInit();
     slowlogInit();
     bioInit();
+#ifdef USE_ZEROMQ
+    zeroMqInit();
+#endif
 }
 
 /* Populates the Redis Command Table starting from the hard coded list
