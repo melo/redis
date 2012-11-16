@@ -76,6 +76,11 @@ ifeq ($(MALLOC),jemalloc)
   FINAL_LIBS+= ../deps/jemalloc/lib/libjemalloc.a -ldl
 endif
 
+ifeq ($(USE_ZEROMQ),yes)
+  FINAL_CFLAGS+= -DUSE_ZEROMQ
+  FINAL_LIBS+= -lzmq
+endif
+
 REDIS_CC=$(QUIET_CC)$(CC) $(FINAL_CFLAGS)
 REDIS_LD=$(QUIET_LINK)$(CC) $(FINAL_LDFLAGS)
 REDIS_INSTALL=$(QUIET_INSTALL)$(INSTALL)
