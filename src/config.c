@@ -380,10 +380,16 @@ void loadServerConfigFromString(char *config) {
             }
         } else if (!strcasecmp(argv[0],"slave-priority") && argc == 2) {
             server.slave_priority = atoi(argv[1]);
+#ifdef USE_ZEROMQ
         } else if (!strcasecmp(argv[0],"zeromq-publish-connect") && argc == 2) {
 	  server.zeromq_publish_connect = zstrdup(argv[1]);
+	  if (strlen(server.zeromq_publish_connect) < 2) {
+	    err = "connection string needed (tcp://*:9001)";
+	    goto loaderr;
+	  }
 	} else if (!strcasecmp(argv[0],"zeromq-publish-linger") && argc == 2) {
 	  server.zeromq_publish_linger = memtoll(argv[1], NULL);
+#endif
         } else if (!strcasecmp(argv[0],"sentinel")) {
             /* argc == 1 is handled by main() as we need to enter the sentinel
              * mode ASAP. */

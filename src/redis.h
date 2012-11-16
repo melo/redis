@@ -662,9 +662,11 @@ struct redisServer {
     int assert_line;
     int bug_report_start; /* True if bug report header was already logged. */
     int watchdog_period;  /* Software watchdog period in ms. 0 = off */
+#ifdef USE_ZEROMQ
     /* ZeroMQ publish */
     char *zeromq_publish_connect; /* ZeroMQ connect string */
     int zeromq_publish_linger;	  /* ZeroMQ linger */
+#endif
 };
 
 typedef struct pubsubPattern {
