@@ -16,14 +16,18 @@
 #include <string.h>
 
 static void *context;
-static voic *publish_socket;
 
 /* Initialize the ZeroMQ context, create the sockets and connect/bind them */
 void zeroMqInit(void) {
+  int major, minor, patch;
+
   context = zmq_ctx_new();
   if (context == NULL) {
-    // FIXME: log the error
+    redisLog(REDIS_WARNING, "Failed to create ZeroMQ context");
     return;
   }
+
+  zmq_version (&major, &minor, &patch);
+  redisLog(REDIS_DEBUG, "ZeroMQ context started, version is %d.%d.%d", major, minor, patch);
 }
 
