@@ -4,5 +4,8 @@
  *
  */
 
+#include "redis.h"
+
 /* Exported API */
 void zeroMqInit(void);
+void zeroMqPublish(robj *channel, robj *message);

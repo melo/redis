@@ -29,6 +29,11 @@
 
 #include "redis.h"
 
+#ifdef USE_ZEROMQ
+#include "zeromq.h"
+#endif
+
+
 /*-----------------------------------------------------------------------------
  * Pubsub low level API
  *----------------------------------------------------------------------------*/
@@ -205,6 +210,10 @@ int pubsubPublishMessage(robj *channel, robj *message) {
     struct dictEntry *de;
     listNode *ln;
     listIter li;
+
+#ifdef USE_ZEROMQ
+    zeroMqPublish(channel, message);
+#endif
 
     /* Send to clients listening for that channel */
     de = dictFind(server.pubsub_channels,channel);

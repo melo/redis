@@ -51,3 +51,27 @@ void zeroMqInit(void) {
   redisLog(REDIS_NOTICE, "ZeroMQ publisher socket listening at %s", publish_addr);
 }
 
+void zeroMqPublish(robj *channel, robj *message) {
+  int rc;
+
+  if (!publish_sock) return;
+
+  redisAssertWithInfo(NULL,channel,channel->type == REDIS_STRING && message->type == REDIS_STRING);
+
+  rc = zmq_send(publish_sock, (void*)channel->ptr, sdslen(channel->ptr), ZMQ_SNDMORE);
+  if (rc == -1) {
+   int err = zmq_errno();
+   redisLog(REDIS_DEBUG, "ZeroMQ Publish - failed to send channel: (%d) %s", err, zmq_strerror(err));
+   return;
+  }
+
+  rc = zmq_send(publish_sock, (void*)message->ptr, sdslen(message->ptr), 0);
+  if (rc == -1) {
+    // FIXME: how to cancel the send of the first part?
+   int err = zmq_errno();
+   redisLog(REDIS_DEBUG, "ZeroMQ Publish - failed to send the message: (%d) %s", err, zmq_strerror(err));
+   return;
+  }
+
+  return;
+}
