@@ -21,7 +21,11 @@ static void *publish_sock;
 /* Initialize the ZeroMQ context, create the sockets and connect/bind them */
 void zeroMqInit(void) {
   int major, minor, patch, rc;
-  const char *publish_addr = server.zeromq_publish_connect;
+  const char *publish_addr = server.zeromq_publish_bind;
+
+  if (server.zeromq_publish_bind == NULL) {
+    return;
+  }
 
   context = zmq_ctx_new();
   if (context == NULL) {

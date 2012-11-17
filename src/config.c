@@ -381,10 +381,10 @@ void loadServerConfigFromString(char *config) {
         } else if (!strcasecmp(argv[0],"slave-priority") && argc == 2) {
             server.slave_priority = atoi(argv[1]);
 #ifdef USE_ZEROMQ
-        } else if (!strcasecmp(argv[0],"zeromq-publish-connect") && argc == 2) {
-	  server.zeromq_publish_connect = zstrdup(argv[1]);
-	  if (strlen(server.zeromq_publish_connect) < 2) {
-	    err = "connection string needed (tcp://*:9001)";
+        } else if (!strcasecmp(argv[0],"zeromq-publish-bind") && argc == 2) {
+	  server.zeromq_publish_bind = zstrdup(argv[1]);
+	  if (strlen(server.zeromq_publish_bind) < 2) {
+	    err = "bind string needed (tcp://*:9001)";
 	    goto loaderr;
 	  }
 	} else if (!strcasecmp(argv[0],"zeromq-publish-linger") && argc == 2) {

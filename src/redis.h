@@ -664,7 +664,7 @@ struct redisServer {
     int watchdog_period;  /* Software watchdog period in ms. 0 = off */
 #ifdef USE_ZEROMQ
     /* ZeroMQ publish */
-    char *zeromq_publish_connect; /* ZeroMQ connect string */
+    char *zeromq_publish_bind; /* ZeroMQ bind string */
     int zeromq_publish_linger;	  /* ZeroMQ linger */
 #endif
 };
